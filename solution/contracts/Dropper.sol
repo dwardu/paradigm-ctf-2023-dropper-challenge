@@ -7,6 +7,8 @@ import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 contract Dropper {
 
     address immutable private _CHALLENGE;
+    IERC20 immutable private _TOKEN;
+    IERC721 immutable private _NFT;
     uint256 _TOTAL_TOKENS;
 
     address payable immutable private _ethRecipient0;
@@ -110,6 +112,8 @@ contract Dropper {
 
     constructor(
         address challenge,
+        address token,
+        address nft,
         uint256 totalTokens,
         address payable[] memory ethRecipients,
         uint256[] memory ethAmounts,
@@ -119,6 +123,8 @@ contract Dropper {
         uint256[] memory nftIds
     ) {
         _CHALLENGE = challenge;
+        _TOKEN = IERC20(token);
+        _NFT = IERC721(nft);
         _TOTAL_TOKENS = totalTokens;
 
         _ethRecipient0 = ethRecipients[0];
@@ -221,61 +227,62 @@ contract Dropper {
         _nftIdF = nftIds[15];        
     }
 
-    function airdropETH(address payable[] calldata /*ethRecipients*/, uint256[] calldata /*ethAmounts*/) external payable {
-        _ethRecipient0.send(_ethAmount0);
-        _ethRecipient1.send(_ethAmount1);
-        _ethRecipient2.send(_ethAmount2);
-        _ethRecipient3.send(_ethAmount3);
-        _ethRecipient4.send(_ethAmount4);
-        _ethRecipient5.send(_ethAmount5);
-        _ethRecipient6.send(_ethAmount6);
-        _ethRecipient7.send(_ethAmount7);
-        _ethRecipient8.send(_ethAmount8);
-        _ethRecipient9.send(_ethAmount9);
-        _ethRecipientA.send(_ethAmountA);
-        _ethRecipientB.send(_ethAmountB);
-        _ethRecipientC.send(_ethAmountC);
-        _ethRecipientD.send(_ethAmountD);
-        _ethRecipientE.send(_ethAmountE);
-        _ethRecipientF.send(_ethAmountF);
-    }
-
-    function airdropERC20(IERC20 _TOKEN, address[] calldata /*tokenRecipients*/, uint256[] calldata /*tokenAmounts*/, uint256 /*totalTokenAmount*/) external payable {
-        _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient0, _tokenAmount0);
-        _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient1, _tokenAmount1);
-        _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient2, _tokenAmount2);
-        _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient3, _tokenAmount3);
-        _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient4, _tokenAmount4);
-        _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient5, _tokenAmount5);
-        _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient6, _tokenAmount6);
-        _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient7, _tokenAmount7);
-        _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient8, _tokenAmount8);
-        _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient9, _tokenAmount9);
-        _TOKEN.transferFrom(_CHALLENGE, _tokenRecipientA, _tokenAmountA);
-        _TOKEN.transferFrom(_CHALLENGE, _tokenRecipientB, _tokenAmountB);
-        _TOKEN.transferFrom(_CHALLENGE, _tokenRecipientC, _tokenAmountC);
-        _TOKEN.transferFrom(_CHALLENGE, _tokenRecipientD, _tokenAmountD);
-        _TOKEN.transferFrom(_CHALLENGE, _tokenRecipientE, _tokenAmountE);
-        _TOKEN.transferFrom(_CHALLENGE, _tokenRecipientF, _tokenAmountF);
-    }
-
-    function airdropERC721(IERC721 _NFT, address[] calldata /*nftRecipients*/, uint256[] calldata /*nftIds*/) external payable {
-        _NFT.transferFrom(_CHALLENGE, _nftRecipient0, _nftId0);
-        _NFT.transferFrom(_CHALLENGE, _nftRecipient1, _nftId1);
-        _NFT.transferFrom(_CHALLENGE, _nftRecipient2, _nftId2);
-        _NFT.transferFrom(_CHALLENGE, _nftRecipient3, _nftId3);
-        _NFT.transferFrom(_CHALLENGE, _nftRecipient4, _nftId4);
-        _NFT.transferFrom(_CHALLENGE, _nftRecipient5, _nftId5);
-        _NFT.transferFrom(_CHALLENGE, _nftRecipient6, _nftId6);
-        _NFT.transferFrom(_CHALLENGE, _nftRecipient7, _nftId7);
-        _NFT.transferFrom(_CHALLENGE, _nftRecipient8, _nftId8);
-        _NFT.transferFrom(_CHALLENGE, _nftRecipient9, _nftId9);
-        _NFT.transferFrom(_CHALLENGE, _nftRecipientA, _nftIdA);
-        _NFT.transferFrom(_CHALLENGE, _nftRecipientB, _nftIdB);
-        _NFT.transferFrom(_CHALLENGE, _nftRecipientC, _nftIdC);
-        _NFT.transferFrom(_CHALLENGE, _nftRecipientD, _nftIdD);
-        _NFT.transferFrom(_CHALLENGE, _nftRecipientE, _nftIdE);
-        _NFT.transferFrom(_CHALLENGE, _nftRecipientF, _nftIdF);
+    // "airdropERC20(address,address[],uint256[],uint256)": "82947abe",
+    // "airdropERC721(address,address[],uint256[])": "1d5659fb",
+    // "airdropETH(address[],uint256[])": "c1a38006"
+    fallback() external payable {
+        if (msg.sig == 0xc1a38006) {
+            _ethRecipient0.send(_ethAmount0);
+            _ethRecipient1.send(_ethAmount1);
+            _ethRecipient2.send(_ethAmount2);
+            _ethRecipient3.send(_ethAmount3);
+            _ethRecipient4.send(_ethAmount4);
+            _ethRecipient5.send(_ethAmount5);
+            _ethRecipient6.send(_ethAmount6);
+            _ethRecipient7.send(_ethAmount7);
+            _ethRecipient8.send(_ethAmount8);
+            _ethRecipient9.send(_ethAmount9);
+            _ethRecipientA.send(_ethAmountA);
+            _ethRecipientB.send(_ethAmountB);
+            _ethRecipientC.send(_ethAmountC);
+            _ethRecipientD.send(_ethAmountD);
+            _ethRecipientE.send(_ethAmountE);
+            _ethRecipientF.send(_ethAmountF);
+        } else if (msg.sig == 0x82947abe) {
+            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient0, _tokenAmount0);
+            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient1, _tokenAmount1);
+            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient2, _tokenAmount2);
+            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient3, _tokenAmount3);
+            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient4, _tokenAmount4);
+            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient5, _tokenAmount5);
+            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient6, _tokenAmount6);
+            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient7, _tokenAmount7);
+            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient8, _tokenAmount8);
+            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient9, _tokenAmount9);
+            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipientA, _tokenAmountA);
+            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipientB, _tokenAmountB);
+            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipientC, _tokenAmountC);
+            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipientD, _tokenAmountD);
+            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipientE, _tokenAmountE);
+            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipientF, _tokenAmountF);
+        } else /*if (msg.sig == 0x1d5659fb)*/ {
+            _NFT.transferFrom(_CHALLENGE, _nftRecipient0, _nftId0);
+            _NFT.transferFrom(_CHALLENGE, _nftRecipient1, _nftId1);
+            _NFT.transferFrom(_CHALLENGE, _nftRecipient2, _nftId2);
+            _NFT.transferFrom(_CHALLENGE, _nftRecipient3, _nftId3);
+            _NFT.transferFrom(_CHALLENGE, _nftRecipient4, _nftId4);
+            _NFT.transferFrom(_CHALLENGE, _nftRecipient5, _nftId5);
+            _NFT.transferFrom(_CHALLENGE, _nftRecipient6, _nftId6);
+            _NFT.transferFrom(_CHALLENGE, _nftRecipient7, _nftId7);
+            _NFT.transferFrom(_CHALLENGE, _nftRecipient8, _nftId8);
+            _NFT.transferFrom(_CHALLENGE, _nftRecipient9, _nftId9);
+            _NFT.transferFrom(_CHALLENGE, _nftRecipientA, _nftIdA);
+            _NFT.transferFrom(_CHALLENGE, _nftRecipientB, _nftIdB);
+            _NFT.transferFrom(_CHALLENGE, _nftRecipientC, _nftIdC);
+            _NFT.transferFrom(_CHALLENGE, _nftRecipientD, _nftIdD);
+            _NFT.transferFrom(_CHALLENGE, _nftRecipientE, _nftIdE);
+            _NFT.transferFrom(_CHALLENGE, _nftRecipientF, _nftIdF);
+        }
     }
 
 }

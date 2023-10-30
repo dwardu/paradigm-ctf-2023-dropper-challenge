@@ -2,6 +2,7 @@
 pragma solidity ^0.8.20;
 
 import "./Dropper.sol";
+import "./DropperHelper.sol";
 
 interface ChallengeLike {
     function submit(address dropper) external payable returns (uint256);
@@ -19,6 +20,15 @@ contract DropperSolver {
     function randomUint(uint256 seed, uint256 min, uint256 max) private pure returns (uint256, uint256) {
         bytes32 v = keccak256(abi.encodePacked((seed >> 128) | (seed << 128)));
         return (uint256(keccak256(abi.encodePacked(seed))), uint256(v) % (max - min) + min);
+    }
+
+    address public token;
+    address public nft;
+    function presolve(address challenge) external {
+        DropperHelper helper = new DropperHelper(challenge);
+        ChallengeLike(challenge).submit(address(helper));
+        token = helper.token();
+        nft = helper.nft();
     }
 
     Dropper public dropper;
@@ -52,7 +62,7 @@ contract DropperSolver {
             nftAmounts[i] = startId++;
         }
 
-        dropper = new Dropper(challenge, totalTokens, ethRecipients, ethAmounts, tokenRecipients, tokenAmounts, nftRecipients, nftAmounts);
+        dropper = new Dropper(challenge, token, nft, totalTokens, ethRecipients, ethAmounts, tokenRecipients, tokenAmounts, nftRecipients, nftAmounts);
 
         ChallengeLike(challenge).submit(address(dropper));
     }

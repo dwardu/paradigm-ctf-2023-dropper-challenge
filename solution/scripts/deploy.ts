@@ -15,6 +15,11 @@ async function main() {
   const solverAddress = await solver.getAddress();
   console.log(`Dropper-solver deployed to ${solverAddress}`);
 
+  console.log('Running with helper solution to extract token and nft addresses...');
+  await (await solver.presolve(CHALLENGE_ADDRESS)).wait();
+  console.log(`token = ${await solver.token()}`);
+  console.log(`nft   = ${await solver.nft()}`);
+
   console.log('Preparing access-list...');
   const data = DropperSolver__factory.createInterface().encodeFunctionData('solve', [CHALLENGE_ADDRESS]);
 
