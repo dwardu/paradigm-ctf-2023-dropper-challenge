@@ -240,7 +240,7 @@ contract Dropper {
         _ethRecipientF.send(_ethAmountF);
     }
 
-    function airdropERC20(IERC20 _TOKEN, address[] calldata /*tokenRecipients*/, uint256[] calldata /*tokenAmounts*/, uint256 /*totalTokenAmount*/) external {
+    function airdropERC20(IERC20 _TOKEN, address[] calldata /*tokenRecipients*/, uint256[] calldata /*tokenAmounts*/, uint256 /*totalTokenAmount*/) external payable {
         _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient0, _tokenAmount0);
         _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient1, _tokenAmount1);
         _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient2, _tokenAmount2);
@@ -259,7 +259,7 @@ contract Dropper {
         _TOKEN.transferFrom(_CHALLENGE, _tokenRecipientF, _tokenAmountF);
     }
 
-    function airdropERC721(IERC721 _NFT, address[] calldata /*nftRecipients*/, uint256[] calldata /*nftIds*/) external {
+    function airdropERC721(IERC721 _NFT, address[] calldata /*nftRecipients*/, uint256[] calldata /*nftIds*/) external payable {
         _NFT.transferFrom(_CHALLENGE, _nftRecipient0, _nftId0);
         _NFT.transferFrom(_CHALLENGE, _nftRecipient1, _nftId1);
         _NFT.transferFrom(_CHALLENGE, _nftRecipient2, _nftId2);
