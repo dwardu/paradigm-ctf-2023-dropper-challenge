@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.20;
 
-import "./NaiveDropper.sol";
+import "./Dropper.sol";
+import "./DropperHelper.sol";
 
 interface ChallengeLike {
     function submit(address dropper) external payable returns (uint256);
@@ -11,10 +12,10 @@ interface ChallengeLike {
 
 contract DropperSolver {
 
-    NaiveDropper public dropper;
+    Dropper public dropper;
 
     function solve(address challenge) external {
-        dropper = new NaiveDropper(challenge);
+        dropper = new Dropper(challenge);
 
         ChallengeLike(challenge).submit(address(dropper));
     }
