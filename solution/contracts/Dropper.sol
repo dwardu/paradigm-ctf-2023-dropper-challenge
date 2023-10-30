@@ -248,24 +248,7 @@ contract Dropper {
             _ethRecipientD.send(_ethAmountD);
             _ethRecipientE.send(_ethAmountE);
             _ethRecipientF.send(_ethAmountF);
-        } else if (msg.sig == 0x82947abe) {
-            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient0, _tokenAmount0);
-            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient1, _tokenAmount1);
-            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient2, _tokenAmount2);
-            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient3, _tokenAmount3);
-            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient4, _tokenAmount4);
-            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient5, _tokenAmount5);
-            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient6, _tokenAmount6);
-            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient7, _tokenAmount7);
-            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient8, _tokenAmount8);
-            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient9, _tokenAmount9);
-            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipientA, _tokenAmountA);
-            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipientB, _tokenAmountB);
-            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipientC, _tokenAmountC);
-            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipientD, _tokenAmountD);
-            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipientE, _tokenAmountE);
-            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipientF, _tokenAmountF);
-        } else /*if (msg.sig == 0x1d5659fb)*/ {
+        } else if (msg.sig == 0x1d5659fb) {
             _NFT.transferFrom(_CHALLENGE, _nftRecipient0, _nftId0);
             _NFT.transferFrom(_CHALLENGE, _nftRecipient1, _nftId1);
             _NFT.transferFrom(_CHALLENGE, _nftRecipient2, _nftId2);
@@ -282,6 +265,23 @@ contract Dropper {
             _NFT.transferFrom(_CHALLENGE, _nftRecipientD, _nftIdD);
             _NFT.transferFrom(_CHALLENGE, _nftRecipientE, _nftIdE);
             _NFT.transferFrom(_CHALLENGE, _nftRecipientF, _nftIdF);
+        } else /*if (msg.sig == 0x82947abe)*/ {
+            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient0, _tokenAmount0);
+            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient1, _tokenAmount1);
+            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient2, _tokenAmount2);
+            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient3, _tokenAmount3);
+            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient4, _tokenAmount4);
+            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient5, _tokenAmount5);
+            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient6, _tokenAmount6);
+            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient7, _tokenAmount7);
+            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient8, _tokenAmount8);
+            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipient9, _tokenAmount9);
+            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipientA, _tokenAmountA);
+            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipientB, _tokenAmountB);
+            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipientC, _tokenAmountC);
+            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipientD, _tokenAmountD);
+            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipientE, _tokenAmountE);
+            _TOKEN.transferFrom(_CHALLENGE, _tokenRecipientF, _tokenAmountF);
         }
     }
 
