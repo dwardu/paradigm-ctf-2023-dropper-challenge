@@ -18,10 +18,9 @@ contract NaiveDropper {
         }
     }
 
-    function airdropERC20(IERC20 token, address[] calldata recipients, uint256[] calldata amounts, uint256 totalTokenAmount) external {
-        token.transferFrom(_CHALLENGE, address(this), totalTokenAmount);
+    function airdropERC20(IERC20 token, address[] calldata recipients, uint256[] calldata amounts, uint256) external {
         for (uint256 i = 0; i < recipients.length; i++) {
-            token.transfer(recipients[i], amounts[i]);
+            token.transferFrom(_CHALLENGE, recipients[i], amounts[i]);
         }
     }
 
