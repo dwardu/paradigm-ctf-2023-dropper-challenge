@@ -41,6 +41,7 @@ contract Challenge {
     ChallengeERC20 private immutable CHALLENGE_TOKEN = new ChallengeERC20();
     ChallengeERC721 private immutable CHALLENGE_NFT = new ChallengeERC721();
 
+    uint256 public latestScore;
     uint256 public bestScore = type(uint256).max;
     bytes public bestImplementation;
 
@@ -129,6 +130,7 @@ contract Challenge {
 
         CHALLENGE_NFT.setApprovalForAll(address(dropper), false);
 
+        latestScore = gasUsed;
         if (gasUsed < bestScore) {
             bestScore = gasUsed;
             bestImplementation = implementation;
