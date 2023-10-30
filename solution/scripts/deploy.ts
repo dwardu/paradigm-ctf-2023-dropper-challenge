@@ -1,6 +1,6 @@
 import assert from 'assert';
 import { ethers } from 'hardhat';
-import { ChallengeLike__factory } from '../typechain-types';
+import { ChallengeLike__factory, DropperSolver__factory } from '../typechain-types';
 
 async function main() {
   const CHALLENGE_ADDRESS = process.env.CHALLENGE;
@@ -15,8 +15,15 @@ async function main() {
   const solverAddress = await solver.getAddress();
   console.log(`Dropper-solver deployed to ${solverAddress}`);
 
+  console.log('Preparing access-list...');
+  const data = DropperSolver__factory.createInterface().encodeFunctionData('solve', [CHALLENGE_ADDRESS]);
+
+  // NOTE: without that 'pending' it will base it on the wrong block,
+  // and the blockhash-dependent accessed locations will be totally different
+  const { accessList } = await ethers.provider.send('eth_createAccessList', [{ to: solverAddress, data }, 'pending']);
+
   console.log('Solving...');
-  await (await solver.connect(signer0).solve(CHALLENGE_ADDRESS)).wait();
+  await (await solver.connect(signer0).solve(CHALLENGE_ADDRESS, { accessList })).wait();
 
   console.log(`Dropper was deployed @ ${await solver.dropper()}`);
   console.log(`Best score:   ${await challenge.bestScore()}`);
