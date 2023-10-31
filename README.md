@@ -2,7 +2,9 @@
 
 The [Challenge](./challenge/project/src/Challenge.sol) contract invokes the solution contract to airdrop random amounts of ETH, ERC-20 tokens and ERC-721 NFTs to random addresses. The objective is to develop a solution contract that can perform the airdrop using minimal gas.
 
-Best score: 1319998
+My submitted score: 1319998
+
+Best score post-CTF, using [this trick](https://twitter.com/orenyomtov/status/1718856711887339863): 1296955
 
 Summary of optimizations:
 
@@ -16,7 +18,10 @@ Gas | Improvement | Description
   1322084 | 12735 | Precompute all random values and bake into Solver
   1322036 |    48 | payable functions slightly cheaper
   1320009 |  2027 | Use fallback function instead of individual functions
-  1319998 |    11 | if-condition order makes a tiny difference
+  *1319998 |    11 | if-condition order makes a tiny difference
+  1296955 | 23043 | [Trick from curta team](https://twitter.com/orenyomtov/status/1718856711887339863) to use `selfdestruct` to send ETH cheaply
+
+*My submitted score.
 
 Gas improvements have been committed [one by one](https://github.com/dwardu/paradigm-ctf-2023-dropper-challenge/commits) to make it easy to follow the optimization process.
 
@@ -37,7 +42,6 @@ npm install
 npm run solve-local
 ```
 
-There are probably some minor optimizations left to make, but to make any further _significant_ gas reductions,
-the solution needs to be written in a lower-level language like [Huff](https://huff.sh/) or in EVM bytecode directly.
+Further gas reductions could be made by writing the solution in a lower-level language like [Huff](https://huff.sh/) or in EVM bytecode directly.
 
 Enjoy :)

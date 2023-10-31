@@ -3,6 +3,7 @@ pragma solidity ^0.8.20;
 
 import "./Dropper.sol";
 import "./DropperHelper.sol";
+import "./EthGiver.sol";
 
 interface ChallengeLike {
     function submit(address dropper) external payable returns (uint256);
@@ -11,6 +12,9 @@ interface ChallengeLike {
 }
 
 contract DropperSolver {
+
+    receive() external payable {
+    }
 
     function randomAddress(uint256 seed) private pure returns (uint256, address payable) {
         bytes32 v = keccak256(abi.encodePacked((seed >> 128) | (seed << 128)));
@@ -37,11 +41,13 @@ contract DropperSolver {
 
         uint256 seed = uint256(blockhash(block.number - 1));
 
-        address payable[] memory ethRecipients = new address payable[](16);
-        uint256[] memory ethAmounts = new uint[](16);
+        EthGiver[] memory ethGivers = new EthGiver[](16);
         for (uint256 i = 0; i < 16; i++) {
-            (seed, ethRecipients[i]) = randomAddress(seed);
-            (seed, ethAmounts[i]) = randomUint(seed, 1 ether, 5 ether);
+            address ethRecipient;
+            uint256 ethAmount;
+            (seed, ethRecipient) = randomAddress(seed);
+            (seed, ethAmount) = randomUint(seed, 1 ether, 5 ether);
+            ethGivers[i] = new EthGiver{value: ethAmount}(payable(ethRecipient));
         }
         
         uint256 totalTokens = 0;
@@ -62,7 +68,7 @@ contract DropperSolver {
             nftAmounts[i] = startId++;
         }
 
-        dropper = new Dropper(challenge, token, nft, totalTokens, ethRecipients, ethAmounts, tokenRecipients, tokenAmounts, nftRecipients, nftAmounts);
+        dropper = new Dropper(challenge, token, nft, totalTokens, ethGivers, tokenRecipients, tokenAmounts, nftRecipients, nftAmounts);
 
         ChallengeLike(challenge).submit(address(dropper));
     }

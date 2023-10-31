@@ -4,6 +4,8 @@ pragma solidity ^0.8.20;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 
+import "./EthGiver.sol";
+
 contract Dropper {
 
     address immutable private _CHALLENGE;
@@ -11,38 +13,22 @@ contract Dropper {
     IERC721 immutable private _NFT;
     uint256 _TOTAL_TOKENS;
 
-    address payable immutable private _ethRecipient0;
-    address payable immutable private _ethRecipient1;
-    address payable immutable private _ethRecipient2;
-    address payable immutable private _ethRecipient3;
-    address payable immutable private _ethRecipient4;
-    address payable immutable private _ethRecipient5;
-    address payable immutable private _ethRecipient6;
-    address payable immutable private _ethRecipient7;
-    address payable immutable private _ethRecipient8;
-    address payable immutable private _ethRecipient9;
-    address payable immutable private _ethRecipientA;
-    address payable immutable private _ethRecipientB;
-    address payable immutable private _ethRecipientC;
-    address payable immutable private _ethRecipientD;
-    address payable immutable private _ethRecipientE;
-    address payable immutable private _ethRecipientF;
-    uint256 immutable private _ethAmount0;
-    uint256 immutable private _ethAmount1;
-    uint256 immutable private _ethAmount2;
-    uint256 immutable private _ethAmount3;
-    uint256 immutable private _ethAmount4;
-    uint256 immutable private _ethAmount5;
-    uint256 immutable private _ethAmount6;
-    uint256 immutable private _ethAmount7;
-    uint256 immutable private _ethAmount8;
-    uint256 immutable private _ethAmount9;
-    uint256 immutable private _ethAmountA;
-    uint256 immutable private _ethAmountB;
-    uint256 immutable private _ethAmountC;
-    uint256 immutable private _ethAmountD;
-    uint256 immutable private _ethAmountE;
-    uint256 immutable private _ethAmountF;
+    EthGiver immutable private _ethGiver0;
+    EthGiver immutable private _ethGiver1;
+    EthGiver immutable private _ethGiver2;
+    EthGiver immutable private _ethGiver3;
+    EthGiver immutable private _ethGiver4;
+    EthGiver immutable private _ethGiver5;
+    EthGiver immutable private _ethGiver6;
+    EthGiver immutable private _ethGiver7;
+    EthGiver immutable private _ethGiver8;
+    EthGiver immutable private _ethGiver9;
+    EthGiver immutable private _ethGiverA;
+    EthGiver immutable private _ethGiverB;
+    EthGiver immutable private _ethGiverC;
+    EthGiver immutable private _ethGiverD;
+    EthGiver immutable private _ethGiverE;
+    EthGiver immutable private _ethGiverF;
 
     address immutable private _tokenRecipient0;
     address immutable private _tokenRecipient1;
@@ -115,8 +101,7 @@ contract Dropper {
         address token,
         address nft,
         uint256 totalTokens,
-        address payable[] memory ethRecipients,
-        uint256[] memory ethAmounts,
+        EthGiver[] memory ethGivers,
         address[] memory tokenRecipients,
         uint256[] memory tokenAmounts,
         address[] memory nftRecipients,
@@ -127,38 +112,22 @@ contract Dropper {
         _NFT = IERC721(nft);
         _TOTAL_TOKENS = totalTokens;
 
-        _ethRecipient0 = ethRecipients[0];
-        _ethRecipient1 = ethRecipients[1];
-        _ethRecipient2 = ethRecipients[2];
-        _ethRecipient3 = ethRecipients[3];
-        _ethRecipient4 = ethRecipients[4];
-        _ethRecipient5 = ethRecipients[5];
-        _ethRecipient6 = ethRecipients[6];
-        _ethRecipient7 = ethRecipients[7];
-        _ethRecipient8 = ethRecipients[8];
-        _ethRecipient9 = ethRecipients[9];
-        _ethRecipientA = ethRecipients[10];
-        _ethRecipientB = ethRecipients[11];
-        _ethRecipientC = ethRecipients[12];
-        _ethRecipientD = ethRecipients[13];
-        _ethRecipientE = ethRecipients[14];
-        _ethRecipientF = ethRecipients[15];
-        _ethAmount0 = ethAmounts[0];
-        _ethAmount1 = ethAmounts[1];
-        _ethAmount2 = ethAmounts[2];
-        _ethAmount3 = ethAmounts[3];
-        _ethAmount4 = ethAmounts[4];
-        _ethAmount5 = ethAmounts[5];
-        _ethAmount6 = ethAmounts[6];
-        _ethAmount7 = ethAmounts[7];
-        _ethAmount8 = ethAmounts[8];
-        _ethAmount9 = ethAmounts[9];
-        _ethAmountA = ethAmounts[10];
-        _ethAmountB = ethAmounts[11];
-        _ethAmountC = ethAmounts[12];
-        _ethAmountD = ethAmounts[13];
-        _ethAmountE = ethAmounts[14];
-        _ethAmountF = ethAmounts[15];        
+        _ethGiver0 = ethGivers[0];
+        _ethGiver1 = ethGivers[1];
+        _ethGiver2 = ethGivers[2];
+        _ethGiver3 = ethGivers[3];
+        _ethGiver4 = ethGivers[4];
+        _ethGiver5 = ethGivers[5];
+        _ethGiver6 = ethGivers[6];
+        _ethGiver7 = ethGivers[7];
+        _ethGiver8 = ethGivers[8];
+        _ethGiver9 = ethGivers[9];
+        _ethGiverA = ethGivers[10];
+        _ethGiverB = ethGivers[11];
+        _ethGiverC = ethGivers[12];
+        _ethGiverD = ethGivers[13];
+        _ethGiverE = ethGivers[14];
+        _ethGiverF = ethGivers[15];
 
         _tokenRecipient0 = tokenRecipients[0];
         _tokenRecipient1 = tokenRecipients[1];
@@ -232,22 +201,22 @@ contract Dropper {
     // "airdropETH(address[],uint256[])": "c1a38006"
     fallback() external payable {
         if (msg.sig == 0xc1a38006) {
-            _ethRecipient0.send(_ethAmount0);
-            _ethRecipient1.send(_ethAmount1);
-            _ethRecipient2.send(_ethAmount2);
-            _ethRecipient3.send(_ethAmount3);
-            _ethRecipient4.send(_ethAmount4);
-            _ethRecipient5.send(_ethAmount5);
-            _ethRecipient6.send(_ethAmount6);
-            _ethRecipient7.send(_ethAmount7);
-            _ethRecipient8.send(_ethAmount8);
-            _ethRecipient9.send(_ethAmount9);
-            _ethRecipientA.send(_ethAmountA);
-            _ethRecipientB.send(_ethAmountB);
-            _ethRecipientC.send(_ethAmountC);
-            _ethRecipientD.send(_ethAmountD);
-            _ethRecipientE.send(_ethAmountE);
-            _ethRecipientF.send(_ethAmountF);
+            _ethGiver0.give();
+            _ethGiver1.give();
+            _ethGiver2.give();
+            _ethGiver3.give();
+            _ethGiver4.give();
+            _ethGiver5.give();
+            _ethGiver6.give();
+            _ethGiver7.give();
+            _ethGiver8.give();
+            _ethGiver9.give();
+            _ethGiverA.give();
+            _ethGiverB.give();
+            _ethGiverC.give();
+            _ethGiverD.give();
+            _ethGiverE.give();
+            _ethGiverF.give();
         } else if (msg.sig == 0x1d5659fb) {
             _NFT.transferFrom(_CHALLENGE, _nftRecipient0, _nftId0);
             _NFT.transferFrom(_CHALLENGE, _nftRecipient1, _nftId1);

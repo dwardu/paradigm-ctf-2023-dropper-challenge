@@ -20,6 +20,9 @@ async function main() {
   console.log(`token = ${await solver.token()}`);
   console.log(`nft   = ${await solver.nft()}`);
 
+  console.log('Funding solver contract with ETH...');
+  await (await signer0.sendTransaction({ to: solverAddress, value: 16n * ethers.parseEther('5') })).wait();
+
   console.log('Preparing access-list...');
   const data = DropperSolver__factory.createInterface().encodeFunctionData('solve', [CHALLENGE_ADDRESS]);
 
